@@ -23,8 +23,11 @@
 hs_err_pid*
 replay_pid*
 
-target/
 
 *.bz2
 *.csv
 *.txt
+
+bin/
+intermediate/
+target/
