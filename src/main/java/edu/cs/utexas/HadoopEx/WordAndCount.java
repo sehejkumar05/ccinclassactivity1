@@ -3,14 +3,16 @@ package edu.cs.utexas.HadoopEx;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.DoubleWritable;
 
 
 public class WordAndCount implements Comparable<WordAndCount> {
 
         private final Text word;
-        private final IntWritable count;
+        private final DoubleWritable count;
+        
 
-        public WordAndCount(Text word, IntWritable count) {
+        public WordAndCount(Text word, DoubleWritable count) {
             this.word = word;
             this.count = count;
         }
@@ -19,7 +21,7 @@ public class WordAndCount implements Comparable<WordAndCount> {
             return word;
         }
 
-        public IntWritable getCount() {
+        public DoubleWritable getCount() {
             return count;
         }
     /**
@@ -29,14 +31,7 @@ public class WordAndCount implements Comparable<WordAndCount> {
      */
         @Override
         public int compareTo(WordAndCount other) {
-
-            float diff = count.get() - other.count.get();
-            if (diff > 0) {
-                return 1;
-            } else if (diff < 0) {
-                return -1;
-            }
-            return 0;
+            return Double.compare(this.count.get(), other.count.get());
         }
 
 

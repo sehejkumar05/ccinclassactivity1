@@ -1,26 +1,31 @@
 package edu.cs.utexas.HadoopEx;
 
-import java.io.IOException;
-import java.util.StringTokenizer;
-
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
+import java.io.IOException;
 
-	// Create a counter and initialize with 1
-	private final IntWritable counter = new IntWritable(1);
-	// Create a hadoop text object to store words
-	private Text word = new Text();
+public class WordCountMapper extends Mapper<Object, Text, Text, DoubleWritable> {
 
-	public void map(Object key, Text value, Context context) 
+	private DoubleWritable delay = new DoubleWritable();
+	private Text airport = new Text();
+
+	@Override
+	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
-		
-		StringTokenizer itr = new StringTokenizer(value.toString());
-		while (itr.hasMoreTokens()) {
-			word.set(itr.nextToken());
-			context.write(word, counter);
+
+		String currLine = value.toString();
+		if (currLine.startsWith("YEAR")){
+			return;
+		}
+		String[] lineParts = currLine.split(",");
+
+		if (lineParts.length > 11 && !lineParts[11].isEmpty()) {
+			airport.set(lineParts[4]);
+			delay.set(Double.parseDouble(lineParts[11]));
+			context.write(airport, delay);
 		}
 	}
 }
