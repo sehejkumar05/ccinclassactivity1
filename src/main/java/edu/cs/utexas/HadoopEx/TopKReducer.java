@@ -15,8 +15,8 @@ import java.util.PriorityQueue;
 import java.util.Iterator;
 
 
-
-public class TopKReducer extends  Reducer<Text, IntWritable, Text, DoubleWritable> {
+//changed for task 2
+public class TopKReducer extends  Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
     private PriorityQueue<WordAndCount> pq = new PriorityQueue<WordAndCount>(10);;
 
@@ -38,6 +38,7 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, DoubleWritabl
      * @throws IOException
      * @throws InterruptedException
      */
+//changed parameter to DoubleWriteable for task 2
    public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
            throws IOException, InterruptedException {
 
@@ -47,20 +48,21 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, DoubleWritabl
 
 
        // size of values is 1 because key only has one distinct value
-       for (DoubleWritable v : values) {
-        pq.add(new WordAndCount(new Text(key), new DoubleWritable(v.get())));
+       //original code removed and new code added for task 2
+       for (DoubleWritable value : values) {
+        pq.add(new WordAndCount(new Text(key), new DoubleWritable(value.get())));
         if (pq.size() > 3) {
             pq.poll();
         }
         }
+        //code commented out was needed for task 1 but not for task 2
+        // keep the priorityQueue size <= heapSize
+        //    while (pq.size() > 3) { //changed 10 to 3 for task 1
+        //        pq.poll();
+        //    }
 
-       // keep the priorityQueue size <= heapSize
-       while (pq.size() > 3) { //changed 10 to 3
-           pq.poll();
-       }
 
-
-   }
+    }
 
 
     public void cleanup(Context context) throws IOException, InterruptedException {

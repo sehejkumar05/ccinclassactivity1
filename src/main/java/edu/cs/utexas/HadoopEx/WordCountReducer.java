@@ -2,21 +2,22 @@ package edu.cs.utexas.HadoopEx;
 
 import java.io.IOException;
 
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+//changed all int writeable to doublewriteable for task 2
+public class WordCountReducer extends  Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
-public class WordCountReducer extends  Reducer<Text, IntWritable, Text, IntWritable> {
-
-   public void reduce(Text text, Iterable<IntWritable> values, Context context)
+   public void reduce(Text text, Iterable<DoubleWritable> values, Context context)
            throws IOException, InterruptedException {
 	   
        int sum = 0;
        
-       for (IntWritable value : values) {
+       for (DoubleWritable value : values) {
            sum += value.get();
        }
        
-       context.write(text, new IntWritable(sum));
+       context.write(text, new DoubleWritable(sum));
    }
 }

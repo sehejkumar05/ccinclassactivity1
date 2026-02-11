@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 
 import org.apache.log4j.Logger;
 
-
+//changed parameter from IntWritable to DoubleWriteable for task 2
 public class TopKMapper extends Mapper<Text, Text, Text, DoubleWritable> {
 
 	private Logger logger = Logger.getLogger(TopKMapper.class);
@@ -33,11 +33,11 @@ public class TopKMapper extends Mapper<Text, Text, Text, DoubleWritable> {
 	public void map(Text key, Text value, Context context)
 			throws IOException, InterruptedException {
 
-
+		//added for task 2 in order to sort priority queue by ratio
 		double ratio = Double.parseDouble(value.toString());
 		pq.add(new WordAndCount(new Text(key), new DoubleWritable(ratio)));
 
-		if (pq.size() > 3) {
+		if (pq.size() > 3) { //this was changed for task 1
 			pq.poll();
 		}
 	}

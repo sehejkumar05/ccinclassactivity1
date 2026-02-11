@@ -1,8 +1,0 @@
-Task 1 output:
-
-ATL     346836
-ORD     285884
-DFW     239551
-
-=
-

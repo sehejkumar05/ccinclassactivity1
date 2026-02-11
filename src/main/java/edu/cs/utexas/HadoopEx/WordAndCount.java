@@ -9,10 +9,10 @@ import org.apache.hadoop.io.DoubleWritable;
 public class WordAndCount implements Comparable<WordAndCount> {
 
         private final Text word;
-        private final DoubleWritable count;
+        private final DoubleWritable count; //changed for task 2
         
 
-        public WordAndCount(Text word, DoubleWritable count) {
+        public WordAndCount(Text word, DoubleWritable count) { //parameter changed for task 2
             this.word = word;
             this.count = count;
         }
@@ -29,6 +29,7 @@ public class WordAndCount implements Comparable<WordAndCount> {
      * @param other
      * @return 0 if equal, negative if this < other, positive if this > other
      */
+        //compare method changed for task 2
         @Override
         public int compareTo(WordAndCount other) {
             return Double.compare(this.count.get(), other.count.get());
